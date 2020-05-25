@@ -4,7 +4,16 @@ public class Processo {
     private char nome;
     private  int tempoExec;
     private int prioridade;
-    public static int quantum;
+    private static int quantum;
+    private int tempoEspera;
+
+    public int getTempoEspera() {
+        return tempoEspera;
+    }
+
+    public void setTempoEspera(int tempoEspera) {
+        this.tempoEspera = tempoEspera;
+    }
 
     public char getNome() {
         return nome;
@@ -64,5 +73,8 @@ public class Processo {
         }
         this.setTempoExec(novoTempo);
         return;
+    }
+    public void turnAround(){
+
     }
 }
