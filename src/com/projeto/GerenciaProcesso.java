@@ -29,6 +29,18 @@ public class GerenciaProcesso {
                     gerenciar.circular();
                     System.out.println("Tempo total de processador = " + gerenciar.tempoTotal);
                     System.out.println("Tempo de turnaround = " + gerenciar.tempoTotal);
+                    for(int i = 0;i<gerenciar.processo.length;i++){
+                        if(gerenciar.processo[i]!=null){
+                            if(i == 0){
+                                System.out.println("Tempo de retorno do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoRetorno() * (gerenciar.processo[i].getQuantum()));
+                                continue;
+                            }
+                            System.out.println("Tempo de retorno do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoRetorno() * (gerenciar.processo[i].getQuantum()+1));
+                        }else{
+                            tempoEsperaTotal = tempoEsperaTotal / i;
+                            break;
+                        }
+                    }
                     gerenciar.tempoTotal = 0;
                     for(int i = 0;i<gerenciar.processo.length;i++){
                         if(gerenciar.processo[i]!=null){
