@@ -5,8 +5,6 @@ public class Processo {
     private  int tempoExec;
     private int prioridade;
     public static int quantum;
-    GerenciaProcesso gp = new GerenciaProcesso();
-    int tempo = 1000;
 
     public char getNome() {
         return nome;
@@ -36,26 +34,35 @@ public class Processo {
     public int getQuantum() {
         return quantum;
     }
+
     public void setQuantum(int quantum) {
         this.quantum = quantum;
     }
-    public void imprimir(boolean prioridade, int p){
-        //Exibir o quantum apenas no início
-        if(p==0){
-            System.out.print("\nQuantum = " + getQuantum() + "");
-            System.out.print("\n------------------------------------------\n");
 
-        }
+    public void imprimirQuantum(){
+        //Exibir o quantum apenas no início
+        System.out.print("Quantum = " + getQuantum() + "");
+        System.out.print("\n------------------------------------------\n");
+    }
+    public void imprimir(boolean prioridade, int p){
         System.out.print("Nome = " + getNome() + "\n");
         System.out.print("Tempo de Execução = " + getTempoExec() + "\n");
         if(prioridade){
             System.out.print("Prioridade = " + getPrioridade() + "\n");
         }
         System.out.print("------------------------------------------" + "\n");
-        gp.pause(tempo);
     }
 
     public void execucao(){
-        gp.pause(5000);
+        int novoTempo = this.getTempoExec();
+        for(int i = 1; i <= getQuantum(); i++ ){
+            if(novoTempo == 0){
+                this.setTempoExec(novoTempo);
+                return;
+            }
+            novoTempo--;
+        }
+        this.setTempoExec(novoTempo);
+        return;
     }
 }

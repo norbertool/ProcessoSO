@@ -1,9 +1,10 @@
 package com.projeto;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class GerenciaProcesso {
     //Vetor de Processos
-    int size = 10;
+    int size = 5;
     int p;
     int tempo = 10000;
     boolean finalizar;
@@ -59,6 +60,7 @@ public class GerenciaProcesso {
             p++;
         }while(finalizar != true);
         exibir(prioridade);
+        executar();
         pause(tempo);
     }
 
@@ -71,6 +73,8 @@ public class GerenciaProcesso {
             p++;
         }while(finalizar != true);
         exibir(prioridade);
+        ordenar();
+        executar();
         pause(tempo);
     }
 
@@ -120,6 +124,9 @@ public class GerenciaProcesso {
         p = 0;
         for(Processo processo : processo){
             if(processo!=null){
+                if(p==0){
+                    processo.imprimirQuantum();
+                }
                 processo.imprimir(prioridade, p);
             }
             p++;
@@ -128,14 +135,69 @@ public class GerenciaProcesso {
 
     public boolean encerrar(){
         String continuar;
-
+        boolean x = true;
         //Pergunta ao usuário se deseja inserir outro processo
-        System.out.print("\nDeseja inserir outro processo? S/N\n");
-        System.out.print("\n> ");
-        continuar = sc.next().toLowerCase();
+        do{
+            System.out.print("\nDeseja inserir outro processo? S/N\n");
+            System.out.print("\n> ");
+            continuar = sc.next().toLowerCase();
+            finalizar = continuar.contains("n");
+            System.out.println();
+            if(!continuar.contains("s") && !continuar.contains("n")){
+                System.out.print("Insira um valor válido");
 
-        finalizar = continuar.contains("n");
-        System.out.println();
+            }else if(continuar.contains("s") || continuar.contains("n")){
+                return finalizar;
+            }
+        }while (x);
         return finalizar;
+    }
+    public void executar(){
+        //Calculo para saber o número de array preenchidos
+
+        p = 0;
+        for(Processo processo : processo){
+            if(processo!=null){
+                p++;
+            }
+        }
+
+        int cont = 0;
+        do{
+            for(Processo processo : processo){
+                if(processo!=null){
+                    if(processo.getTempoExec() > 0) {
+                        processo.execucao();
+                        exibir(prioridade);
+                    }else if(processo.getTempoExec() == 0){
+                        cont++;
+                    }
+                }
+            }
+        }while(p != cont);
+    }
+
+    public void ordenar(){
+        int i;
+        int j;
+        Processo aux;
+
+        //Ordenando a partir da maior prioridade
+        for(i = 0; i<processo.length;i++){
+            if(processo[i]!=null){
+                for (j = i+1; j < processo.length; j++) {
+                    if(processo[j]!=null){
+                        if(processo[i].getPrioridade() < processo[j].getPrioridade()){
+                            aux = processo[i];
+                            processo[i] = processo[j];
+                            processo[j] = aux;
+                        }
+                    }
+                }
+            }
+
+
+        }
+        return;
     }
 }
