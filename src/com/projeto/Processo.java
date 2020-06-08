@@ -5,24 +5,6 @@ public class Processo {
     private  int tempoExec;
     private int prioridade;
     private static int quantum;
-    private int tempoEspera;
-    private int tempoRetorno = 0;
-
-    public int getTempoRetorno() {
-        return tempoRetorno;
-    }
-
-    public void setTempoRetorno(int tempoRetorno) {
-        this.tempoRetorno = tempoRetorno;
-    }
-
-    public int getTempoEspera() {
-        return tempoEspera;
-    }
-
-    public void setTempoEspera(int tempoEspera) {
-        this.tempoEspera = tempoEspera;
-    }
 
     public char getNome() {
         return nome;
@@ -80,7 +62,6 @@ public class Processo {
             }
             novoTempo--;
         }
-        this.setTempoRetorno(this.getTempoRetorno() + 1);
         this.setTempoExec(novoTempo);
         return;
     }

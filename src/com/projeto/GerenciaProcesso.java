@@ -1,13 +1,11 @@
 package com.projeto;
-import java.util.Collection;
 import java.util.Scanner;
 
 public class GerenciaProcesso {
     //Vetor de Processos
     int size = 5;
     int p;
-    int tempoTotal;
-    int tempo = 1;
+    int tempo = 300;
     boolean finalizar;
     boolean prioridade;
     Processo processo[] = new Processo[size];
@@ -15,7 +13,6 @@ public class GerenciaProcesso {
 
     public static void main(String[] args) {
         //Criando as variaveis e objetos
-        int tempoEsperaTotal = 0;
         GerenciaProcesso gerenciar = new GerenciaProcesso();
         int opt;
 
@@ -27,50 +24,10 @@ public class GerenciaProcesso {
 
                 case 1:
                     gerenciar.circular();
-                    System.out.println("Tempo total de processador = " + gerenciar.tempoTotal);
-                    System.out.println("Tempo de turnaround = " + gerenciar.tempoTotal);
-                    for(int i = 0;i<gerenciar.processo.length;i++){
-                        if(gerenciar.processo[i]!=null){
-                            if(i == 0){
-                                System.out.println("Tempo de retorno do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoRetorno() * (gerenciar.processo[i].getQuantum()));
-                                continue;
-                            }
-                            System.out.println("Tempo de retorno do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoRetorno() * (gerenciar.processo[i].getQuantum()+1));
-                        }else{
-                            tempoEsperaTotal = tempoEsperaTotal / i;
-                            break;
-                        }
-                    }
-                    gerenciar.tempoTotal = 0;
-                    for(int i = 0;i<gerenciar.processo.length;i++){
-                        if(gerenciar.processo[i]!=null){
-                            gerenciar.processo[i].setTempoEspera(gerenciar.processo[i].getTempoEspera() - gerenciar.processo[i].getQuantum());
-                            System.out.println("Tempo de espera do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoEspera());
-                            tempoEsperaTotal += gerenciar.processo[i].getTempoEspera();
-                        }else{
-                            tempoEsperaTotal = tempoEsperaTotal / i;
-                            break;
-                        }
-                    }
-                    System.out.println("Tempo medio de espera = " + tempoEsperaTotal);
                     break;
 
                 case 2:
                     gerenciar.circularPrioridade();
-                    System.out.println("Tempo total de processador = " + gerenciar.tempoTotal);
-                    System.out.println("Tempo de turnaround = " + gerenciar.tempoTotal);
-                    gerenciar.tempoTotal = 0;
-                    for(int i = 0;i<gerenciar.processo.length;i++){
-                        if(gerenciar.processo[i]!=null){
-                            gerenciar.processo[i].setTempoEspera(gerenciar.processo[i].getTempoEspera() - gerenciar.processo[i].getQuantum());
-                            System.out.println("Tempo de espera do processo " + gerenciar.processo[i].getNome() + " = " + gerenciar.processo[i].getTempoEspera());
-                            tempoEsperaTotal += gerenciar.processo[i].getTempoEspera();
-                        }else{
-                            tempoEsperaTotal = tempoEsperaTotal / i;
-                            break;
-                        }
-                    }
-                    System.out.println("Tempo medio de espera = " + tempoEsperaTotal);
                     break;
 
                 case 3:
@@ -152,7 +109,6 @@ public class GerenciaProcesso {
         processo[p].setNome(sc.next().charAt(0));
         System.out.print("Digite o tempo de execução: ");
         processo[p].setTempoExec(sc.nextInt());
-        tempoTotal += processo[p].getTempoExec();
 
         //Inserindo "Prioridade" caso tenha
         if(prioridade){
@@ -171,6 +127,7 @@ public class GerenciaProcesso {
                 }
                 processo.imprimir(prioridade, p);
             }
+            pause(tempo);
             p++;
         }
     }
@@ -200,7 +157,6 @@ public class GerenciaProcesso {
         p = 0;
         for(Processo processo : processo){
             if(processo!=null){
-                processo.setTempoEspera(0);
                 p++;
             }
         }
@@ -211,7 +167,6 @@ public class GerenciaProcesso {
                     if(processo.getTempoExec() > 0) {
                         processo.execucao();
                         exibir(prioridade);
-                        processo.setTempoEspera(processo.getTempoEspera() + processo.getQuantum());
                     }else if(processo.getTempoExec() == 0){
                         cont++;
                         if(cont == p){
